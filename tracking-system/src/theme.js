@@ -43,6 +43,12 @@ export const themeSettings = () => {
         fontSize: 30,
         fontWeight: 700,
       },
+
+      v1: {
+        fontFamily: ["DM Sans", "sans-serif"].join(","),
+        fontSize: 18,
+        fontWeight: 700,
+      },
     },
   };
 };

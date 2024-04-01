@@ -10,7 +10,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* <Login /> */}
       <RouterProvider router={router} />
     </ThemeProvider>
   );
