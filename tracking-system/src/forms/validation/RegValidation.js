@@ -27,4 +27,6 @@ const CredentialInfo = Yup.object({
     .required("Confirm Password is required"),
 });
 
-export { BasicInfo, CompanyInfo, CredentialInfo };
+const NewTaskSchema = Yup.object({});
+
+export { BasicInfo, CompanyInfo, CredentialInfo, NewTaskSchema };

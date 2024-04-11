@@ -1,10 +1,17 @@
-import React from "react";
-import { TextField, Box, Button, Typography, InputLabel } from "@mui/material";
+import React, { useState } from "react";
+import {
+  TextField,
+  Box,
+  Button,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosApi from "../AxiosApi";
-import CustomTextField from "./CustomTextField";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import CustomTextField from "./CustomTextField";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -12,34 +19,50 @@ const validationSchema = Yup.object({
 });
 
 export const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      handleSubmit(values);
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const response = await axiosApi.post(`/login`, values);
+        setLoading(false);
+        console.log(response);
+        localStorage.setItem("token", response.data.token);
+        toast.success(response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        navigate("/dashboard");
+        console.log("Maryenn", response);
+      } catch (err) {
+        console.log("Kyleeee", err);
+        setLoading(false); // Hide loader in case of an error
+        toast.error(err.response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     },
   });
-  const navigate = useNavigate();
-
-  const handleSubmit = async (values) => {
-    try {
-      await axiosApi
-        .post(`/login`, values)
-        .then((response) => {
-          localStorage.setItem("token", response.data.token);
-          navigate("/dashboard");
-          console.log("Maryenn", response);
-        })
-        .catch((err) => {
-          console.log("Kyleeee", err);
-        });
-    } catch (error) {
-      console.log("smthng went wrong");
-    }
-  };
 
   return (
     <Box>
@@ -77,8 +100,26 @@ export const LoginForm = () => {
               Log In
             </Button>
           </Box>
+          {loading && (
+            <Box
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 9999,
+              }}>
+              <CircularProgress color="primary" />
+            </Box>
+          )}
         </Box>
       </form>
+      <ToastContainer />
     </Box>
   );
 };

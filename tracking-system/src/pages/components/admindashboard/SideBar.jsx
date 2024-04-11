@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -9,15 +9,64 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout"; // Import LogoutIcon
 import Logo from "../../../../public/Logo.png";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import { sidebarData } from "./sidebarData";
 import { useNavigate } from "react-router-dom";
+import axiosApi from "../../../AxiosApi";
+import Logout from "../../../assets/Logout.svg";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const SideBar = () => {
   const navigate = useNavigate();
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
   const handleClick = (path) => {
     navigate(path);
+  };
+
+  const handleLogout = () => {
+    setLogoutDialogOpen(true);
+  };
+
+  const handleLogoutConfirmed = () => {
+    // console.log(response.data.token);
+    try {
+      axiosApi
+        .post(`/logout`)
+        .then(() => {
+          localStorage.clear();
+          navigate("/login");
+          console.log("ni gana");
+        })
+        .catch((err) => {
+          console.log("Kyleeee", err);
+          // setOpen(false);
+          toast.error(err.response.data.message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        });
+    } catch (error) {
+      navigate("/login");
+      console.log("smthng went wrong");
+    }
   };
 
   return (
@@ -59,6 +108,35 @@ export const SideBar = () => {
           </ListItem>
         ))}
       </List>
+      <Box sx={{ position: "absolute", bottom: 10, color: "white" }}>
+        <ListItem disablePadding onClick={handleLogout}>
+          <ListItemButton>
+            <ListItemIcon sx={{ marginRight: -3, color: "#ffffff" }}>
+              <img src={Logout} alt="" />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+        </ListItem>
+      </Box>
+
+      <Dialog
+        open={logoutDialogOpen}
+        onClose={() => setLogoutDialogOpen(false)}>
+        <DialogTitle>Confirm Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to logout?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setLogoutDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogoutConfirmed} color="primary">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

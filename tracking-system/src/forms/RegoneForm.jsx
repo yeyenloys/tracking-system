@@ -12,9 +12,10 @@ import {
 import moment from "moment";
 import { useFormik, useFormikContext } from "formik";
 import * as Yup from "yup";
+import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 // const validationSchema = Yup.object({
 //   first_name: Yup.string().required("First Name is required"),
@@ -28,6 +29,7 @@ import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers";
 export const RegoneFOrm = ({ onContinue }) => {
   const { handleChange, touched, errors, values, setFieldValue } =
     useFormikContext();
+
   // const formik = useFormik({
   //   initialValues: {
   //     // first_name: "",
@@ -154,6 +156,7 @@ export const RegoneFOrm = ({ onContinue }) => {
                   sx={{ borderRadius: "10px" }}
                 />
               )}
+              disableFuture
               label=""
               InputLabelProps={{ style: { display: "none" } }}
             />

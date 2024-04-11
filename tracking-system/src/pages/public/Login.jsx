@@ -2,9 +2,15 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import Logo from "../../assets/Logo.png";
 import { LoginForm } from "../../forms";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export const Login = () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    return <Navigate to="/dashboard" replace />;
+  }
   return (
     <>
       <Box
@@ -74,6 +80,7 @@ export const Login = () => {
           </NavLink>
         </Box>
       </Box>
+      <ToastContainer />
     </>
   );
 };
