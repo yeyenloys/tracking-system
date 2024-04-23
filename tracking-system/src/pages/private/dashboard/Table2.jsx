@@ -10,7 +10,6 @@ import { Typography } from "@mui/material";
 import { Box, Modal } from "@mui/material";
 import { Table2Data } from "./Table2Data";
 import { ModalAssignee } from "./ModalAssignee";
-// import { ModalAssignee } from "./ModalAssignee";
 
 export const Table2 = () => {
   const [openModal, setOpenModal] = React.useState(false);

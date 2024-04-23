@@ -9,7 +9,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout"; // Import LogoutIcon
+import LogoutIcon from "@mui/icons-material/Logout";
 import Logo from "../../../../public/Logo.png";
 import {
   Typography,

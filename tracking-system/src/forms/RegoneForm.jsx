@@ -185,37 +185,6 @@ export const RegoneFOrm = ({ onContinue }) => {
           helperText={touched.address && errors.address}
         />
       </Box>
-
-      {/* <Box display="block" mt={6}>
-          <Box display="flex" gap={2} justifyContent="center">
-            <Button
-              sx={{
-                textTransform: "none",
-                height: "50px",
-                width: "150px",
-                borderRadius: "10px",
-              }}
-              disabled
-              variant="outlined"
-              color="primary"
-              onClick={handlePrevious}>
-              Previous
-            </Button>
-            <Button
-              sx={{
-                textTransform: "none",
-                height: "50px",
-                width: "150px",
-                borderRadius: "10px",
-              }}
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}>
-              Next
-            </Button>
-          </Box>
-        </Box> */}
-      {/* </form> */}
     </Box>
   );
 };

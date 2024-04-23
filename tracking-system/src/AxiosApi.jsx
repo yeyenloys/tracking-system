@@ -17,26 +17,4 @@ axiosApi.defaults.headers.post["Accept"] = "application/json";
 axiosApi.defaults.headers.get["Content-Type"] = "application/json";
 axiosApi.defaults.headers.get["Accept"] = "application/json";
 
-// axiosApi.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
-//     console.log("erroeeee", error);
-//     try {
-//       if (error.response.status === 401) {
-//         localStorage.removeItem("token");
-//         if (window.location.pathname !== "/") {
-//           window.location.href = "/";
-//         }
-//       } else {
-//         return Promise.reject(error);
-//       }
-//     } catch (error) {
-//       console.error(error);
-//     }
-
-//     throw error;
-//   }
-// );
 export default axiosApi;

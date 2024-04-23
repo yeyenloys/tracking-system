@@ -9,8 +9,6 @@ import Paper from "@mui/material/Paper";
 import { Typography, Modal } from "@mui/material";
 import { Box } from "@mui/material";
 import { Table1Data } from "./Table1Data";
-// import { ModalCompleted } from "./ModalCompleted";
-// import { ModalInprogress } from "./ModalInprogress";
 import { ModalPending } from "./ModalView";
 
 export const Table1 = () => {

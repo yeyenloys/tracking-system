@@ -49,7 +49,7 @@ export const LoginForm = () => {
         console.log("Maryenn", response);
       } catch (err) {
         console.log("Kyleeee", err);
-        setLoading(false); // Hide loader in case of an error
+        setLoading(false);
         toast.error(err.response.data.message, {
           position: "bottom-right",
           autoClose: 5000,

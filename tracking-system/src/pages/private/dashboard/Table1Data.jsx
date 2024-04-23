@@ -73,13 +73,13 @@ const rows = [
 const getStatusColor = (status) => {
   switch (status) {
     case "completed":
-      return "#64DA6950"; // Green color for completed status
+      return "#64DA6950";
     case "in progress":
-      return "#F6913450"; // Orange color for in progress status
+      return "#F6913450";
     case "pending":
-      return "#33ADD150"; // Blue color for pending status
+      return "#33ADD150";
     default:
-      return ""; // Default color or handle other statuses as needed
+      return "";
   }
 };
 
@@ -91,8 +91,6 @@ export const Table1Data = ({ onView }) => {
       try {
         const response = await axiosApi.get(`/user/assigner/recent-tasks`);
         setTasks(response.data.tasks);
-
-        // console.log("API Response:", response);
         console.log(response);
       } catch (error) {
         console.error("API Error:", error);

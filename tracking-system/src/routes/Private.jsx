@@ -18,10 +18,6 @@ export const privateRoutes = [
         element: <Employees />,
         path: "/employees",
       },
-      // {
-      //   element: <Approver />,
-      //   path: "/approver",
-      // },
     ],
   },
 ];

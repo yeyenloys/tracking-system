@@ -11,6 +11,7 @@ export const TaskCards = ({ icon, name, count, type }) => {
           width="35px"
           height="35px"
           sx={{
+            borderRadius: 2,
             padding: 2.5,
             display: "flex",
             justifyContent: "center",

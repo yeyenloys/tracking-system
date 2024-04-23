@@ -11,18 +11,13 @@ export const sidebarData = [
     icon: React.createElement(DashboardIcon),
   },
   {
-    path: "/employees",
-    icon: React.createElement(PersonIcon),
-    name: "Employees",
-  },
-  {
     path: "/tasks",
     icon: React.createElement(SupervisorAccountIcon),
     name: "Tasks",
   },
-  // {
-  //   path: "/settings",
-  //   icon: React.createElement(SettingsIcon),
-  //   name: "Settings",
-  // },
+  {
+    path: "/employees",
+    icon: React.createElement(PersonIcon),
+    name: "Employees",
+  },
 ];

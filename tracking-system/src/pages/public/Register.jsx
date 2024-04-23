@@ -66,9 +66,7 @@ export const Register = () => {
           .then((response) => {
             setOpen(false);
             setLoading(false);
-            // console.log(response.data.token);
             console.log(response);
-            // localStorage.setItem("token", response.data.token);
             toast.success(response.data.message, {
               position: "bottom-right",
               autoClose: 3000,
@@ -116,12 +114,6 @@ export const Register = () => {
     step === 2 && setStep(1);
   };
 
-  // const handleSubmit = (values) => {
-  //   step === 0 && setStep(1);
-  //   step === 1 && setStep(2);
-  //   console.log(values);
-  // };
-
   useEffect(() => {
     axiosApi
       .get(`/departments`)
@@ -147,7 +139,6 @@ export const Register = () => {
 
   return (
     <>
-      {/* <CustomLoader open={open} /> */}
       {loading && (
         <Box
           sx={{
@@ -253,37 +244,11 @@ export const Register = () => {
                   justifyContent="center"
                   width="25vw"
                   marginTop={5}>
-                  {/* <Swiper
-            modules={[Controller]}
-            spaceBetween={50}
-            slidesPerView={1}
-            controller={{ control: swiperController }}
-            onSwiper={setSwiperController}>
-            <SwiperSlide>
-              <RegoneFOrm />
-            </SwiperSlide>
-            <SwiperSlide>
-              <RegtwoForm />
-            </SwiperSlide>
-            <SwiperSlide>
-              <RegthreeForm />
-            </SwiperSlide>
-          </Swiper> */}
-
-                  {step === 0 && (
-                    <RegoneFOrm
-                    // onContinue={() => handleContinue("two")}
-                    />
-                  )}
+                  {step === 0 && <RegoneFOrm />}
                   {step === 1 && (
                     <RegtwoForm department={department} position={position} />
                   )}
-                  {step === 2 && (
-                    <RegthreeForm
-                    // onPrev={() => handlePrevious("two")}
-                    // onContinue={() => handleSubmit()}
-                    />
-                  )}
+                  {step === 2 && <RegthreeForm />}
                 </Box>
                 <Box display="flex" gap={2} justifyContent="center">
                   <Button

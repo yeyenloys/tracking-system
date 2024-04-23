@@ -12,38 +12,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import * as Yup from "yup";
 
-// const validationSchema = Yup.object({
-//   email: Yup.string()
-//     .email("Invalid email format")
-//     .required("Email is required"),
-//   password: Yup.string()
-//     .min(6, "Password must be at least 6 characters")
-//     .required("Password is required"),
-//   password_confirmation: Yup.string()
-//     .oneOf([Yup.ref("password"), null], "Passwords must match")
-//     .required("Confirm Password is required"),
-// });
-
 export const RegthreeForm = ({ onPrev, onContinue }) => {
   const { handleChange, touched, errors, values, setFieldValue } =
     useFormikContext();
-  // const formik = useFormik({
-  //   initialValues: {
-  //     // email: "",
-  //     // password: "",
-  //     // password_confirmation: "",
-  //     // showPassword: false,
-  //     // showpassword_confirmation: false,
-  //   },
-  //   // validationSchema: validationSchema,
-  //   onSubmit: () => {
-  //     onContinue();
-  //   },
-  // });
-
-  // const handleTogglePasswordVisibility = (field) => () => {
-  //   setFieldValue(field, (prevValue) => !prevValue);
-  // };
 
   const [showPassword, setShowPassword] = useState(false);
   const [showpassword_confirmation, setShowpassword_confirmation] =
@@ -59,7 +30,6 @@ export const RegthreeForm = ({ onPrev, onContinue }) => {
 
   return (
     <Box>
-      {/* <form onSubmit={formik.handleSubmit}> */}
       <Box sx={{ marginBottom: 2 }}>
         <Typography htmlFor="email" marginBottom={1}>
           Email
@@ -142,35 +112,6 @@ export const RegthreeForm = ({ onPrev, onContinue }) => {
           sx={{ width: 500 }}
         />
       </Box>
-
-      {/* <Box display="flex" justifyContent="center" gap={2}>
-          <Button
-            sx={{
-              textTransform: "none",
-              height: "50px",
-              width: "150px",
-              borderRadius: "10px",
-            }}
-            variant="outlined"
-            color="primary"
-            type="button"
-            onClick={onPrev}>
-            Previous
-          </Button>
-          <Button
-            sx={{
-              textTransform: "none",
-              height: "50px",
-              width: "150px",
-              borderRadius: "10px",
-            }}
-            variant="contained"
-            color="primary"
-            type="submit">
-            Next
-          </Button>
-        </Box> */}
-      {/* </form> */}
     </Box>
   );
 };

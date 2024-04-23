@@ -27,7 +27,9 @@ const Dashboard = () => {
 
   return (
     <Box>
-      <Box padding="13px">Dashboard</Box>
+      <Box paddingTop="25px" paddingLeft="25px">
+        Dashboard
+      </Box>
       <Box
         px={4}
         py={2}
