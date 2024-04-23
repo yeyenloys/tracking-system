@@ -5,6 +5,7 @@ import {
   Step,
   StepLabel,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
 import Logo from "../../assets/Logo.png";
@@ -23,7 +24,6 @@ import { useEffect } from "react";
 import axiosApi from "../../AxiosApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import CustomLoader from "../../components/common/CustomLoader";
 
 const steps = ["Personal Details", "Company Details", "Account Details"];
 
@@ -46,7 +46,7 @@ export const Register = () => {
   const [step, setStep] = useState(0);
   const [current, setCurrent] = useState("basic");
   const [swiperController, setSwiperController] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const [department, setDepartment] = useState([]);
   const [position, setPosition] = useState([]);
   const [open, setOpen] = useState(false);
@@ -59,11 +59,13 @@ export const Register = () => {
     step === 1 && setStep(2);
     if (step === 2) {
       setOpen(true);
+      setLoading(true);
       try {
         await axiosApi
           .post(`/signup`, values)
           .then((response) => {
             setOpen(false);
+            setLoading(false);
             // console.log(response.data.token);
             console.log(response);
             // localStorage.setItem("token", response.data.token);
@@ -86,6 +88,7 @@ export const Register = () => {
           .catch((err) => {
             console.log("Kyleeee", err);
             setOpen(false);
+            setLoading(false);
             toast.error(err.response.data.message, {
               position: "bottom-right",
               autoClose: 5000,
@@ -145,6 +148,23 @@ export const Register = () => {
   return (
     <>
       {/* <CustomLoader open={open} /> */}
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}>
+          <CircularProgress color="primary" />
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",

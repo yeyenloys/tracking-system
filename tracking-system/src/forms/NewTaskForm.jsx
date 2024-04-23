@@ -28,17 +28,19 @@ export const NewTaskForm = ({ setLoading, onClose }) => {
 
   const { handleBlur, handleChange, handleSubmit, values } = useFormik({
     initialValues: {
-      user_id: "",
+      assignee_id: "",
       department_id: "",
       task_name: "",
       task_description: "",
     },
     validationSchema: NewTaskSchema,
+
     onSubmit: async (values) => {
       console.log("Form Values:", {});
 
       const payload = {
         ...values,
+        assignee_id: selectedAssignee,
         user_id: selectedAssignee,
         department_id: selectedDepartment,
       };
@@ -47,7 +49,7 @@ export const NewTaskForm = ({ setLoading, onClose }) => {
         setLoading(true);
         const response = await axiosApi.post(`/user/assigner/add`, payload);
         console.log("gtyvg", response);
-        toast.success("fytdyd", {
+        toast.success("Task added", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -101,6 +103,7 @@ export const NewTaskForm = ({ setLoading, onClose }) => {
       .then((response) => {
         console.log("anhhssgdg", response.data);
         setAssignee(response.data);
+        console.log(assignee);
       })
       .catch((err) => {
         console.log("Kyle", err);
@@ -200,11 +203,17 @@ export const NewTaskForm = ({ setLoading, onClose }) => {
             labelId="assignee_id-label"
             value={selectedAssignee}
             onChange={handleChangeAssignee}>
-            {assignee?.map((item, index) => (
-              <MenuItem value={item.id} key={index}>
-                {item.fullname}
+            {assignee.length ? (
+              assignee?.map((item, index) => (
+                <MenuItem value={item.id} key={index}>
+                  {item.fullname}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem value={"null"} key={0}>
+                No Data
               </MenuItem>
-            ))}
+            )}
           </Select>
         </FormControl>
       </Box>

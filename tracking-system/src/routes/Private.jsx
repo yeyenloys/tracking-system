@@ -1,8 +1,6 @@
 import { DashboardLayout } from "../pages/components/admindashboard";
 import Dashboard from "../pages/private/dashboard/Dashboard";
-import Users from "../pages/private/users/Users";
-import Settings from "../pages/private/settings/Settings";
-import Approver from "../pages/private/approvers/Approver";
+import { Tasks, Employees } from "../pages/private";
 
 export const privateRoutes = [
   {
@@ -13,17 +11,17 @@ export const privateRoutes = [
         path: "/dashboard",
       },
       {
-        element: <Users />,
-        path: "/users",
+        element: <Tasks />,
+        path: "/tasks",
       },
       {
-        element: <Settings />,
-        path: "/settings",
+        element: <Employees />,
+        path: "/employees",
       },
-      {
-        element: <Approver />,
-        path: "/approver",
-      },
+      // {
+      //   element: <Approver />,
+      //   path: "/approver",
+      // },
     ],
   },
 ];

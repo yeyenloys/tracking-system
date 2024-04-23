@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
 export const NavBar = () => {
@@ -37,9 +37,14 @@ export const NavBar = () => {
       </Box>
 
       {/* Pages */}
-      <main>
+      <Stack
+        sx={{
+          overflow: "scroll",
+          width: "calc(100vw - 200px)",
+          height: "calc(100vh - 75px)",
+        }}>
         <Outlet />
-      </main>
+      </Stack>
     </Box>
   );
 };

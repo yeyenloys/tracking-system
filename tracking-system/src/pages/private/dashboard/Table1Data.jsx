@@ -1,33 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
-import { Box, Avatar, Stack } from "@mui/material";
+import { Typography, Modal } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import axiosApi from "../../../AxiosApi";
 import kyle from "../../../assets/kyle.jpg";
 import chan from "../../../assets/chan.jpg";
 import nil from "../../../assets/nil.jpg";
-import Chip from "@mui/material/Chip";
+import { ModalPending } from "./ModalView";
 
-function createData(id, task, name, department, date, status, action, profile) {
-  return { id, task, name, department, date, status, action, profile };
+function createData(
+  id,
+  task_name,
+  first_name,
+  last_name,
+  department_id,
+  date,
+  status,
+  action,
+  profile
+) {
+  return {
+    id,
+    task_name,
+    first_name,
+    last_name,
+    department_id,
+    date,
+    status,
+    action,
+    profile,
+  };
 }
-
-const getStatusColor = (status) => {
-  if (status === "Completed") {
-    return "#64DA6950"; // Green color for completed status
-  } else if (status === "In Progress") {
-    return "#F6913450"; // Orange color for in progress status
-  } else if (status === "Pending") {
-    return "#33ADD150"; // Blue color for pending status
-  } else {
-    return ""; // Default color or handle other statuses as needed
-  }
-};
 
 const rows = [
   createData(
@@ -61,7 +69,41 @@ const rows = [
     chan
   ),
 ];
-export const Table1Data = () => {
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case "completed":
+      return "#64DA6950"; // Green color for completed status
+    case "in progress":
+      return "#F6913450"; // Orange color for in progress status
+    case "pending":
+      return "#33ADD150"; // Blue color for pending status
+    default:
+      return ""; // Default color or handle other statuses as needed
+  }
+};
+
+export const Table1Data = ({ onView }) => {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await axiosApi.get(`/user/assigner/recent-tasks`);
+        setTasks(response.data.tasks);
+
+        // console.log("API Response:", response);
+        console.log(response);
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [onView]);
+
+  console.log(tasks);
+
   return (
     <Table aria-label="simple table">
       <TableHead>
@@ -70,7 +112,7 @@ export const Table1Data = () => {
           paddingTop="15px"
           fontStyle="italic"
           pl={2}
-          color="#00000075;">
+          color="#00000075">
           Recent Tasks
         </Typography>
         <TableRow>
@@ -84,41 +126,83 @@ export const Table1Data = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row) => (
-          <TableRow
-            key={row.name}
-            sx={{
-              "&:last-child td, &:last-child th": { border: 0 },
-              fontSize: "18px",
-            }}>
-            {/* <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell> */}
-            <TableCell align="left">{row.id}</TableCell>
-            <TableCell align="left">{row.task}</TableCell>
-            <TableCell align="left">
-              <Stack direction="row" sx={{ alignItems: "center", gap: 2 }}>
-                <Avatar alt={row.name} src={row?.profile} />
-                {row.name}
-              </Stack>
+        {Array.isArray(tasks) && tasks.length > 0 ? (
+          tasks.map(
+            (row, key) =>
+              key < 3 && (
+                <TableRow
+                  key={tasks.id}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    fontSize: "18px",
+                  }}>
+                  <TableCell align="left">{row.id}</TableCell>
+                  <TableCell align="left">{row.task_name}</TableCell>
+                  <TableCell align="left">
+                    <Stack
+                      direction="row"
+                      sx={{ alignItems: "center", gap: 2 }}>
+                      <Avatar alt={row.name} src={row?.profile} />
+                      {row?.users[0]?.first_name +
+                        ", " +
+                        row?.users[0]?.last_name}
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="left">
+                    {row.users[0]?.department_name}
+                  </TableCell>
+                  <TableCell align="left">
+                    {row.created_at
+                      ? `${new Date(row?.created_at).toLocaleDateString(
+                          "en-AU",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )} ${new Date(row?.created_at).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}`
+                      : null}
+                  </TableCell>
+                  <TableCell align="left">
+                    <Stack direction="row" spacing={1}>
+                      <Chip
+                        variant="outlined"
+                        label={row.status}
+                        style={{
+                          textTransform: "capitalize",
+                          borderColor: getStatusColor(row.status),
+                          backgroundColor: getStatusColor(row.status),
+                        }}
+                      />
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="left">
+                    <button
+                      style={{
+                        fontSize: "13px",
+                        borderColor: "transparent",
+                        backgroundColor: "transparent",
+                      }}
+                      onClick={() => onView(row)}>
+                      View
+                    </button>
+                  </TableCell>
+                </TableRow>
+              )
+          )
+        ) : (
+          <TableRow>
+            <TableCell colSpan={7} align="center">
+              No tasks found.
             </TableCell>
-            <TableCell align="left">{row.department}</TableCell>
-            <TableCell align="left">{row.date}</TableCell>
-            <TableCell align="left">
-              <Stack direction="row" spacing={1}>
-                <Chip
-                  variant="outlined"
-                  label={row.status}
-                  style={{
-                    borderColor: getStatusColor(row.status),
-                    backgroundColor: getStatusColor(row.status),
-                  }}
-                />
-              </Stack>
-            </TableCell>
-            <TableCell align="left">{row.action}</TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );
